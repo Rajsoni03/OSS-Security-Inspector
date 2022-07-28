@@ -13,14 +13,16 @@ def scan_repo(path):
 	report_severity = report[report.find('(by severity)'):report.find('(by confidence)')]
 	report_confidence = report[report.find('(by confidence)'):]
 
+	length = 0
 	for i in bySeverity.keys():
 	    bySeverity[i] = int(re.search(f"{i}.*", report_severity)[0].split(' ')[1])
 	    byConfidence[i] = int(re.search(f"{i}.*", report_confidence)[0].split(' ')[1])
+	    length += bySeverity[i]
 	    
 	issueList = []
 	for i in output.split('--------------------------------------------------')[:-1]:
 	    issue = {}
-	    issue['Issue'] = re.search("Issue.*", i)[0][re.search("Issue.*", i)[0].find(' ')+1:]
+	    issue['Issue'] = re.search("Issue.*", i)[0][re.search("Issue.*", i)[0].find(']')+1:]
 	    issue['Severity'] = re.search("Severity.*", i)[0].split(' ')[1]
 	    issue['Confidence'] = re.search("Severity.*", i)[0].split(' ')[-1]
 	    issue['CWE'] = re.search("CWE.*", i)[0][5:]
@@ -30,10 +32,9 @@ def scan_repo(path):
 	    issueList.append(issue)
 
 	data = {
+		'length'       : length,
 		'bySeverity'   : bySeverity,
 		'byConfidence' : byConfidence,
 		'issueList'    : issueList
 	}
-	# print(bySeverity, byConfidence)
-	# print(issueList)
 	return data
