@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="打印堆栈信息"/>
+    <name value="print stack info"/>
     <language value="java"/>
     <match mode="regex-only-match"><![CDATA[printStackTrace\s*\(]]></match>
     <level value="2"/>

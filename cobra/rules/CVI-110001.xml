@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="不安全的权限设置"/>
+    <name value="Insecure permission settings"/>
     <language value="php"/>
     <match mode="regex-only-match"><![CDATA[(mkdir|chmod)\s*\(\s*(.*?)\s*,\s*0777\s*\)]]></match>
     <level value="2"/>

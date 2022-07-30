@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="输出入参可能导致XSS"/>
+    <name value="Input parameters can cause XSS"/>
     <language value="java"/>
     <match mode="regex-only-match"><![CDATA[out\.println\s*\(\s*request\.get(Parameter|QueryString)\s*\(\s*\"]]></match>
     <level value="4"/>

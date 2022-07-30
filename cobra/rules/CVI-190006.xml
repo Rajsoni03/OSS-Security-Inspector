@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="设计源文件泄露"/>
+    <name value="Design source files leaked"/>
     <language value="source"/>
     <match mode="find-extension"><![CDATA[]]></match>
     <level value="4"/>

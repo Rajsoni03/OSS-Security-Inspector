@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="硬编码HTTP地址"/>
+    <name value="Hardcoded HTTP address"/>
     <language value="*"/>
     <match mode="regex-only-match"><![CDATA[http:\/\/.*((mogujie|meilishuo)\.com|(mogujie)\.cn).*]]></match>
     <level value="2"/>

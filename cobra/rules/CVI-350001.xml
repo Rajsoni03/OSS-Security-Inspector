@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="unlink删除文件"/>
+    <name value="unlink delete file"/>
     <language value="php"/>
     <match mode="function-param-controllable"><![CDATA[unlink]]></match>
     <repair block="in-function-up"><![CDATA[in_array]]></repair>

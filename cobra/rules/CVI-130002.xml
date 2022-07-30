@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="硬编码Token/Key"/>
+    <name value="Hardcoded Token/Key"/>
     <language value="*"/>
     <match mode="regex-only-match"><![CDATA[[^\\/](?![\d]{32})(?![a-fA-F]{32})([a-f\d]{32}|[A-F\d]{32})[^.]]]></match>
     <repair block="in-current-line"><![CDATA[(github\.com|composer|reference|jQuery|hash|version|hm\.js|githubusercontent|ClientCnxn)]]></repair>

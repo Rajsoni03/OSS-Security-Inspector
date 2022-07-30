@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="Logger敏感信息"/>
+    <name value="Logger sensitive information"/>
     <language value="java"/>
     <match mode="regex-only-match"><![CDATA[log(ger)?\..*?\(.*(([^a-z]ssn[^a-z])|getssn|ssn\(|socialsecurity|taxid|email|e_mail|emailaddress|pass|amount|account|acct|phone|phonenumber|zip|postal)]]></match>
     <level value="2"/>

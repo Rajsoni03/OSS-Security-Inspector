@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cobra document="https://github.com/WhaleShark-Team/cobra">
-    <name value="XXE(XML实体注入)"/>
+    <name value="XXE (XML Entity Injection)"/>
     <language value="php"/>
     <match mode="function-param-controllable"><![CDATA[simplexml_load_file|simplexml_load_string]]></match>
     <repair block="in-function-up"><![CDATA[libxml_disable_entity_loader\s*\(\s*(true|.?)\s*\)]]></repair>
