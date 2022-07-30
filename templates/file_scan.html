@@ -21,10 +21,10 @@
                         <a class="nav-link " href="/git-scan"><b>Git-Scan</b></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/py-scan"><b>Python Package</b></a>
+                        <a class="nav-link" href="/py-scan"><b>Python Package</b></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/file-scan"><b>Custom-Scan</b></a>
+                        <a class="nav-link active" href="/file-scan"><b>Custom-Scan</b></a>
                     </li>
                 </ul>
             </div>
@@ -39,12 +39,11 @@
                         <div class="col-12 p-5  bg-dark" >
                             <div class="card text-left">
                                 <div class="card-body">
-                                    <h5 class="card-title">Scan PyPi Python Modules</h5>
-                                    <form method="POST" action="/git-scan-link" id="urlForm">
+                                    <h5 class="card-title">Custom Code Scan</h5>
+                                    <form runat="server" enctype="multipart/form-data" method="post" id='urlForm' >
                                         <div class="mb-3">
-                                            <label for="modulename" class="form-label">Module Name</label>
-                                            <input type="text" class="form-control" id="modulename" name="modulename" aria-describedby="emailHelp" , placeholder="neuralplot, flask, numpy" required>
-                                            <!-- <div id="emailHelp" class="form-text">We'll never share your repo with anyone else.</div> -->
+                                            <label for="formFile" class="form-label">Upload zip, gz, tar.xz file</label>
+                                            <input class="form-control" type="file" id="formFile" name="formFile" required>
                                         </div>
                                     </form>
                                     <button id='myBtn' class="btn btn-primary">Security Scan</button>
@@ -193,7 +192,7 @@
                                     <div class='col-3'> 
                                         <h5 class="card-title pb-0 mb-0" id="HighCount">High</h5>
                                         <div id="chart4"></div>
-                                    </div>
+                                    </div> 
                                 </div>
                                 <div class='row' id="dummyGraph">                                 
                                     <div class='col-3'> 
@@ -388,12 +387,13 @@
                 $('#graphs').show();
                 $('#report').show();    
                 $('#dummyGraph').show();
-                $('#actualGraph').hide();            
+                $('#actualGraph').hide();   
+
             }, 100);
             var form_data = new FormData($('#urlForm')[0]);
             $.ajax({
                 type: 'POST',
-                url: '/py-scan-link',
+                url: '/file-scan-link',
                 data: form_data,
                 contentType: false,
                 cache: false,
@@ -406,6 +406,7 @@
                 success: function(data) {
                     console.log(data);
                     if (data['status'] == true) {
+
                         var countData= data['report'].bySeverity;
 
                         document.getElementById('UndefinedCount').innerHTML = countData['Undefined'].toString();
@@ -452,7 +453,7 @@
         var form_data = new FormData($('#urlForm')[0]);
         $.ajax({
             type: 'POST',
-            url: '/py_depend-scan',
+            url: '/file-depend-scan',
             data: form_data,
             contentType: false,
             cache: false,
@@ -482,7 +483,6 @@
             },
         });        
     };
-    
     function updateCharts(chartData) {
         var chartData = chartData;
         var total = chartData['Undefined'] + chartData['Low'] + chartData['Medium'] + chartData['High'] + 0.00001;
@@ -492,11 +492,6 @@
         var Low = Math.floor(((chartData['Low'] * 100) + 0.00001) / total);
         var Medium = Math.floor(((chartData['Medium'] * 100) + 0.00001) / total);
         var High = Math.floor(((chartData['High'] * 100) + 0.00001) / total);
-
-        // var Undefined = 100;
-        // var Low = 10;
-        // var Medium = 70;
-        // var High = 37;
 
         var options1 = {
           series: [Undefined],

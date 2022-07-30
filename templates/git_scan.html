@@ -24,7 +24,7 @@
                         <a class="nav-link" href="/py-scan"><b>Python Package</b></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><b>Custom-Scan</b></a>
+                        <a class="nav-link " href="/file-scan"><b>Custom-Scan</b></a>
                     </li>
                 </ul>
             </div>
@@ -43,7 +43,7 @@
                                     <form method="POST" action="/git-scan-link" id="urlForm">
                                         <div class="mb-3">
                                             <label for="repolink" class="form-label">GitHub Repo Link</label>
-                                            <input type="text" class="form-control" id="repolink" name="repolink" aria-describedby="emailHelp" , placeholder="https://github.com/username/reponame" value="https://github.com/Rajsoni03/HousieTicket">
+                                            <input type="text" class="form-control" id="repolink" name="repolink" aria-describedby="emailHelp", placeholder="https://github.com/username/reponame"  required>
                                             <!-- <div id="emailHelp" class="form-text">We'll never share your repo with anyone else.</div> -->
                                         </div>
                                     </form>
@@ -178,22 +178,22 @@
                             <div class="card-body">
                                 <div class='row' id='actualGraph'>                                 
                                     <div class='col-3'> 
-                                        <h5 class="card-title">Undefined</h5>
+                                        <h5 class="card-title pb-0 mb-0" id="UndefinedCount">Undefined</h5>
                                         <div id="chart1">
                                         </div>
                                     </div> 
                                     <div class='col-3'> 
-                                        <h5 class="card-title">Low</h5>
+                                        <h5 class="card-title pb-0 mb-0" id="LowCount">Low</h5>
                                         <div id="chart2"></div>
                                     </div> 
                                     <div class='col-3'> 
-                                        <h5 class="card-title">Medium</h5>
+                                        <h5 class="card-title pb-0 mb-0" id="MediumCount">Medium</h5>
                                         <div id="chart3"></div>
                                     </div> 
                                     <div class='col-3'> 
-                                        <h5 class="card-title">High</h5>
+                                        <h5 class="card-title pb-0 mb-0" id="HighCount">High</h5>
                                         <div id="chart4"></div>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div class='row' id="dummyGraph">                                 
                                     <div class='col-3'> 
@@ -388,7 +388,8 @@
                 $('#graphs').show();
                 $('#report').show();    
                 $('#dummyGraph').show();
-                $('#actualGraph').hide();            
+                $('#actualGraph').hide();
+       
             }, 100);
             var form_data = new FormData($('#urlForm')[0]);
             $.ajax({
@@ -406,6 +407,13 @@
                 success: function(data) {
                     console.log(data);
                     if (data['status'] == true) {
+                        var countData= data['report'].bySeverity;
+
+                        document.getElementById('UndefinedCount').innerHTML = countData['Undefined'].toString();
+                        document.getElementById('LowCount').innerHTML = countData['Low'].toString();
+                        document.getElementById('MediumCount').innerHTML = countData['Medium'].toString();
+                        document.getElementById('HighCount').innerHTML = countData['High'].toString();
+
                         $('#actualGraph').show();
                         $('#dummyGraph').hide();
                         updateReport(data);
@@ -466,7 +474,7 @@
                         var dependency = data['depenency_report'].dependencyList[i];
                         var colors = { 'Low': 'success', 'Medium': 'primary', 'High': 'warning', 'Critical': 'danger' };
                         
-                        var card = '<div class="col-lg-6 mb-4"><div class="card text-bg-light" style="max-width: 18rem;"><div class="card-header text-bg-'+ colors[dependency["Severity"]] +'"><div class="row"><div class="col-6"><h5><b>'+  dependency["Type"] +'</b></h5></div><div class="col-6 rtxt"> Severity<br> <span class="badge text-bg-light">'+ dependency["Severity"] +'</span> </div> </div> </div> <div class="card-body"> <h5 class="card-title">'+dependency["Name"]+'</h5> <p class="card-text">Installed - <b>'+dependency["Installled"]+'</b><br>Fixed In - <b>'+dependency["Fixed-In"]+'</b></p> <a class="card-text" href="https://www.google.com/search?q='+dependency["Vulnerability"]+'">'+dependency["Vulnerability"]+'</a></div> </div> </div>';
+                        var card = '<div class="col-lg-6 mb-4"><div class="card text-bg-light" style="max-width: 18rem;"><div class="card-header text-bg-'+ colors[dependency["Severity"]] +'"><div class="row"><div class="col-6"><h5><b>'+  dependency["Type"] +'</b></h5></div><div class="col-6 rtxt"> Severity<br> <span class="badge text-bg-light">'+ dependency["Severity"] +'</span> </div> </div> </div> <div class="card-body"> <h5 class="card-title">'+dependency["Name"]+'</h5> <p class="card-text">Installed - <b>'+dependency["Installled"]+'</b><br>Fixed In - <b>'+dependency["Fixed-In"]+'</b></p> <a class="card-text" href="https://github.com/advisories/'+dependency["Vulnerability"]+'">'+dependency["Vulnerability"]+'</a></div> </div> </div>';
 
                         str += card;
                     }
@@ -477,17 +485,20 @@
     };
     function updateCharts(chartData) {
         var chartData = chartData;
-        var total = chartData['Undefined'] + chartData['Low'] + chartData['Medium'] + chartData['High'];
+        var total = chartData['Undefined'] + chartData['Low'] + chartData['Medium'] + chartData['High'] + 0.00001;
 
-        var Undefined = Math.floor(chartData['Undefined'] * 100 / total);
-        var Low = Math.floor(chartData['Low'] * 100 / total);
-        var Medium = Math.floor(chartData['Medium'] * 100 / total);
-        var High = Math.floor(chartData['High'] * 100 / total);
+        var Undefined = Math.floor(((chartData['Undefined'] * 100) + 0.00001) / total);
+        var Low = Math.floor(((chartData['Low'] * 100) + 0.00001) / total);
+        var Medium = Math.floor(((chartData['Medium'] * 100) + 0.00001) / total);
+        var High = Math.floor(((chartData['High'] * 100) + 0.00001) / total);
 
         // var Undefined = 100;
         // var Low = 10;
         // var Medium = 70;
         // var High = 37;
+
+
+   
 
         var options1 = {
           series: [Undefined],
