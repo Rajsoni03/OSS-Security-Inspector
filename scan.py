@@ -1,4 +1,5 @@
 import os
+import json
 import re
 
 def scan_py(path):
@@ -89,4 +90,48 @@ def download_pypi(name):
 	    return True
 	return False
 
-    	
+
+def deep_scan(path):
+	filepath = os.path.join(os.path.join(os.getcwd(), 'report.json'))
+	toolpath = os.path.join(os.path.join(os.path.join(os.getcwd(), 'cobra')), 'cobra.py')
+	stream = os.popen(f'python {toolpath} -t {path} -o {filepath}')
+	output = stream.read()
+	f = open(filepath, 'r')
+	report = json.load(f)
+	f.close()
+	f = open(filepath, 'w')
+	f.write('')
+	f.close()
+	
+	key=''
+	for i in report.keys():
+	    key = i
+	report = report[key]
+	
+	vulnerability = report['vulnerabilities']
+
+	vulnerabilityList = []
+	length = 0
+	for i in vulnerability:
+		vul = {}
+		vul['rule_name'] = i['rule_name']
+		vul['code_content'] = i['code_content']
+		vul['file_path'] = i['file_path']
+		vul['line_number'] = i['line_number']
+		vul['level'] = i['level']
+		vul['language'] = i['language']
+
+		vulnerabilityList.append(vul)
+		length+=1
+
+
+	data = {
+		'extension' : report['extension'],
+		'file' : report['file'],
+		'framework' : report['framework'],
+		'length' : length,
+		'vulnerabilityList' : vulnerabilityList
+	}
+	
+	return data
+	# python ./OSS-Security-Inspector/cobra/cobra.py -t ./OSS-Security-Inspector/cobra/tests/ -o /home/jetson/Desktop/FlipKart/repot.json

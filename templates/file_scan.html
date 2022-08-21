@@ -485,13 +485,19 @@
     };
     function updateCharts(chartData) {
         var chartData = chartData;
-        var total = chartData['Undefined'] + chartData['Low'] + chartData['Medium'] + chartData['High'] + 0.00001;
+        var total = chartData['Undefined'] + chartData['Low'] + chartData['Medium'] + chartData['High'];
 
+        var Undefined = 0;
+        var Low = 0;
+        var Medium = 0;
+        var High = 0;
 
-        var Undefined = Math.floor(((chartData['Undefined'] * 100) + 0.00001) / total);
-        var Low = Math.floor(((chartData['Low'] * 100) + 0.00001) / total);
-        var Medium = Math.floor(((chartData['Medium'] * 100) + 0.00001) / total);
-        var High = Math.floor(((chartData['High'] * 100) + 0.00001) / total);
+        if (total != 0){
+            Undefined = Math.floor((chartData['Undefined'] * 100) / total);
+            Low = Math.floor((chartData['Low'] * 100) / total);
+            Medium = Math.floor((chartData['Medium'] * 100) / total);
+            High = Math.floor((chartData['High'] * 100) / total);
+        }
 
         var options1 = {
           series: [Undefined],

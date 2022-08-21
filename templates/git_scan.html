@@ -163,9 +163,30 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>                            
                         </div>
+                        <!-- <div class="col-12 p-5 pt-3 bg-light" >
+                            <h2 class="text-center">Deep Scan Report</h2>
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <div class='row'>
+                                        <div class="col-6">
+                                            <h5 class="card-title">Total Files  - <b>85</b></h5>
+                                            <h5 class="card-title">Total Extensions - <b>22</b></h5>
+                                            <h5 class="card-title">Framework - <b>Django</b></h5>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5 class="card-title">Total Files  - <b>85</b></h5>
+                                            <h5 class="card-title">Total Extensions - <b>22</b></h5>
+                                            <h5 class="card-title">Vulnerability Found - <b>8</b></h5>
+                                        </div>
+                                    </div>
+                                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        </div>
+                        -->
                     </div>                    
                 </div>
                 <div class="col-7 p-5 pt-2 bg-warning">
@@ -485,20 +506,20 @@
     };
     function updateCharts(chartData) {
         var chartData = chartData;
-        var total = chartData['Undefined'] + chartData['Low'] + chartData['Medium'] + chartData['High'] + 0.0000001;
-
-        var Undefined = Math.floor(((chartData['Undefined'] + 0.0000001) * 100) / total);
-        var Low = Math.floor(((chartData['Low'] + 0.0000001) * 100) / total);
-        var Medium = Math.floor(((chartData['Medium'] + 0.0000001) * 100) / total);
-        var High = Math.floor(((chartData['High'] + 0.0000001) * 100) / total);
-
-        // var Undefined = 100;
-        // var Low = 10;
-        // var Medium = 70;
-        // var High = 37;
+        var total = chartData['Undefined'] + chartData['Low'] + chartData['Medium'] + chartData['High'];
 
 
-   
+        var Undefined = 0;
+        var Low = 0;
+        var Medium = 0;
+        var High = 0;
+
+        if (total != 0){
+            Undefined = Math.floor((chartData['Undefined'] * 100) / total);
+            Low = Math.floor((chartData['Low'] * 100) / total);
+            Medium = Math.floor((chartData['Medium'] * 100) / total);
+            High = Math.floor((chartData['High'] * 100) / total);
+        }
 
         var options1 = {
           series: [Undefined],
