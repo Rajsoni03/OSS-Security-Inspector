@@ -3,6 +3,7 @@ import json
 import re
 
 def scan_py(path):
+	print("Scanning Vulnerabilities...")
 	stream = os.popen(f'bandit -r {path}')
 	output = stream.read()
 	if output.find('>>') == -1:
@@ -15,7 +16,7 @@ def scan_py(path):
 		return data
 
 	report = output[output.find('>>'):].split('--------------------------------------------------')[-1]
-
+	print("Parsing Report...")
 	bySeverity =   {'Undefined':0, 'Low':0, 'Medium':0, 'High':0 }
 	byConfidence = {'Undefined':0, 'Low':0, 'Medium':0, 'High':0 }
 
@@ -24,9 +25,9 @@ def scan_py(path):
 
 	length = 0
 	for i in bySeverity.keys():
-	    bySeverity[i] = int(re.search(f"{i}.*", report_severity)[0].split('.')[-2].split(' ')[-1])
-	    byConfidence[i] = int(re.search(f"{i}.*", report_confidence)[0].split('.')[-2].split(' ')[-1])
-	    length += bySeverity[i]
+		bySeverity[i] = int(re.search(f"{i}.*", report_severity)[0].split(':')[-1])
+		byConfidence[i] = int(re.search(f"{i}.*", report_confidence)[0].split(':')[-1])
+		length += bySeverity[i]
 	    
 	issueList = []
 	for i in output.split('--------------------------------------------------')[:-1]:
@@ -48,7 +49,10 @@ def scan_py(path):
 	return data
 
 def scan_dependency(path):
-	soft = "/home/jetson/Desktop/FlipKart/OSS-Security-Inspector/grype"
+	# install grype using following command if not installed.
+	# curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | /bin/sh -s
+	print("Scanning Dependencies...")
+	soft = os.path.join(os.getcwd(), 'bin/grype') 
 	stream = os.popen(f'{soft} {path}')
 	output = stream.read()
 
@@ -70,7 +74,7 @@ def scan_dependency(path):
 	    	dependency['Type'] = string[2]
 	    	dependency['Vulnerability'] = string[3]
 	    	dependency['Severity'] = string[4]
-
+	    	print(dependency)
 	    dependencyList.append(dependency)
 	    length+=1
 

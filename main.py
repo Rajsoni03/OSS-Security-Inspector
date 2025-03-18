@@ -28,9 +28,13 @@ def git_scan_link():
 				username = arr[-2]
 				reponame = arr[-1]
 				url = f"https://github.com/{username}/{reponame}"
-				git.Git('./repo').clone(url)
-
+				
 				path = os.path.join(os.path.join(os.getcwd(), 'repo'), reponame)
+				os.system(f"rm -rf {path}")
+				
+				print("Clone Git Repo URL: ", url)
+				git.Git('./repo').clone(url)
+				
 				# scan
 				params['report'] = scan_py(path)
 				
@@ -86,7 +90,7 @@ def py_scan_link():
 			params['status'] = False	
 	return jsonify(params)
 
-@app.route('/py_depend-scan', methods=['POST'])
+@app.route('/py-depend-scan', methods=['POST'])
 def py_depend_scan():
 	params = {'status': False, 'report' : None}
 	if (request.method == 'POST'):
